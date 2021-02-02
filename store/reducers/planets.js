@@ -1,12 +1,11 @@
 import { FETCH_PLANETS } from '../actions/actionTypes';
 
-const countInitialState = {data: []}
+const initialState = {data: []}
 
-export default function reducer(state = countInitialState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PLANETS:
-      console.log(action.data)
-      return {data: action.data}
+      return {...state, data: action.data}
     default:
       return state
   }
