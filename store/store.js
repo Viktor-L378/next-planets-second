@@ -22,7 +22,7 @@ const reducer = (state, action) => {
       ...action.payload,
     };
     console.log(state);
-    if (Object.keys(state) > 0) nextState = state;
+    if (Object.keys(state.planets.data) > 0) nextState.planets.data = state.planets.data;
     return nextState;
   } else {
     return combinedReducer(state, action);
