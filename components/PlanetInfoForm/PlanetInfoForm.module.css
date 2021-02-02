@@ -1,0 +1,36 @@
+.PlanetInfoForm {
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.PlanetInfoForm input {
+    display: block;
+    box-sizing: border-box;
+    max-width: 50%;
+    margin: 0 auto;
+}
+
+.PlanetInfoForm button {
+    display: block;
+    width: 60px;
+    height: 35px;
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.PlanetInfoForm span {
+    display: block;
+    font-size: 12px;
+    max-width: 200px;
+    max-height: 12px;
+    overflow: hidden;
+    margin: 0 auto;
+    color: red;
+}
+
+.PlanetInfoForm select {
+    display: block;
+    max-width: 50%;
+    margin: 0 auto;
+}

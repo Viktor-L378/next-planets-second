@@ -1,0 +1,22 @@
+.Modal {
+    position: fixed;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    top: 0%;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.Modal.active {
+    display: flex;
+}
+
+.Modal > div {
+    background-color: aliceblue;
+    min-width: 400px;
+    min-height: 400px;
+    border-radius: 12px;
+}
