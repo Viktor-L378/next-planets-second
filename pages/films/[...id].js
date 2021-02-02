@@ -1,16 +1,20 @@
 import Grid from "../../components/Grid/Grid";
 import { useState } from "react";
+import { wrapper } from "../../store/store";
 
 import planetsApi from "../../axios/planetsApi";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { fetchFilms } from "../../store/actions/films";
 
 function Films(props) {
   const router = useRouter();
+  const filmsInfo = useSelector(state => state.films.data);
 
   const data = {
     header: ["title", "episode_id", "director", "producer", "release_date"],
-    values: props.filmsInfo,
+    values: filmsInfo,
     actions: [
       {
         label: "home",
@@ -39,16 +43,10 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
-  const filmsPromises = params.id.map((filmId) => {
-    return planetsApi(`/films/${filmId}`);
-  });
-  const filmsResponses = await Promise.all(filmsPromises);
-  const filmsInfo = filmsResponses.map(response => response.data)
-
-  return {
-    props: { filmsInfo },
-  };
-}
+export const getStaticProps = wrapper.getStaticProps(
+  async ({ store, params }) => {
+    await store.dispatch(fetchFilms(params.id));
+  }
+);
 
 export default Films;

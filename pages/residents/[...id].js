@@ -1,15 +1,17 @@
 import Grid from "../../components/Grid/Grid";
 
-import planetsApi from "../../axios/planetsApi";
-import axios from "axios";
 import { useRouter } from "next/router";
+import { fetchResidents } from "../../store/actions/residents";
+import { wrapper } from "../../store/store";
+import { useSelector } from "react-redux";
 
 function Residents(props) {
   const router = useRouter();
+  const filmsInfo = useSelector((state) => state.residents.data);
 
   const data = {
     header: ["name", "height", "mass", "hair_color", "skin_color"],
-    values: props.residentsInfo,
+    values: filmsInfo,
     actions: [
       {
         label: "home",
@@ -38,15 +40,10 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
-  const residentsPromises = params.id.map((residentId) => {
-    return planetsApi(`/people/${residentId}`).then((response) => response.data);
-  });
-  const residentsInfo = await Promise.all(residentsPromises);
-
-  return {
-    props: { residentsInfo },
-  };
-}
+export const getStaticProps = wrapper.getStaticProps(
+  async ({ store, params }) => {
+    await store.dispatch(fetchResidents(params.id));
+  }
+);
 
 export default Residents;
