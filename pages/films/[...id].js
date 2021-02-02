@@ -41,9 +41,10 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const filmsPromises = params.id.map((filmId) => {
-    return planetsApi(`/films/${filmId}`).then((response) => response.data);
+    return planetsApi(`/films/${filmId}`);
   });
-  const filmsInfo = await Promise.all(filmsPromises);
+  const filmsResponses = await Promise.all(filmsPromises);
+  const filmsInfo = filmsResponses.map(response => response.data)
 
   return {
     props: { filmsInfo },
