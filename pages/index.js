@@ -6,6 +6,6 @@ export default function Home() {
   return <App  />;
 }
 
-export const getStaticProps = wrapper.getServerSideProps(async ({ store }) => {
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
   await store.dispatch(fetchPlanets());
 });
