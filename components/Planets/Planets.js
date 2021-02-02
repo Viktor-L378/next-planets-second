@@ -58,7 +58,7 @@ function Planets(props) {
       {
         label: "Planet Info",
         action: (row) => {
-          router.push(`/planets/${row.url.match(/\d+/g)[0]}`);
+          router.push(`/planets/${row.name}`);
           console.log(`redirect to grid with ${row.url} Films`);
         },
       },
