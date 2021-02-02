@@ -1,10 +1,20 @@
 import Grid from "../../components/Grid/Grid";
 
-import planetsApi from "../../axios/planetsApi";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 function Planets(props) {
+  const [planetInfo, setPlanetInfo] = useState([]);
   const router = useRouter();
+  const planetsInfo = useSelector((state) => state.planets.data);
+  useEffect(() => {
+    if (props.planetName) {
+      setPlanetInfo(
+        planetsInfo.filter((planet) => planet.name === props.planetName)
+      );
+    }
+  }, [props.planetName]);
 
   const data = {
     header: [
@@ -17,7 +27,7 @@ function Planets(props) {
       "terrain",
       "surface_water",
     ],
-    values: [props.planetInfo],
+    values: planetInfo,
     actions: [
       {
         label: "home",
@@ -35,24 +45,20 @@ function Planets(props) {
 }
 
 export async function getStaticPaths() {
-  const planetInfo = await planetsApi.get('/planets');
-  const planetCount = planetInfo.data.count;
-  const paths = [...Array(planetCount).keys()].map((planetId) => {
-    return {
-      params: { id: String(planetId + 1) },
-    };
-  });
+  const paths = [
+    {
+      params: { id: "planet_name" },
+    },
+  ];
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
 export async function getStaticProps({ params }) {
-  const planetResponse = await planetsApi.get(`/planets/${params.id}`);
-  const planetInfo = planetResponse.data;
   return {
-    props: { planetInfo },
+    props: { planetName: params.id },
   };
 }
 
