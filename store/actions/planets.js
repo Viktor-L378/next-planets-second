@@ -10,14 +10,12 @@ export const fetchPlanets = () => async (dispatch) => {
 
   Array.prototype.push.apply(allPlanetsList, res.data.results);
   const pageCount = Math.ceil(res.data.count / res.data.results.length);
-  console.log(pageCount - pageNumber);
   const allPlanetsReq = new Array(pageCount - pageNumber).fill(null).map(() => {
     pageNumber++;
     return planetsApi.get("/planets", {
       params: { page: pageNumber },
     });
   });
-  console.log(allPlanetsReq);
   const allResponses = await Promise.all(allPlanetsReq);
   allResponses.map((response) =>
     Array.prototype.push.apply(allPlanetsList, response.data.results)
