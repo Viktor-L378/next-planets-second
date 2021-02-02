@@ -35,7 +35,9 @@ function Planets(props) {
 }
 
 export async function getStaticPaths() {
-  const paths = [...Array(60).keys()].map((planetId) => {
+  const planetInfo = await planetsApi.get('/planets');
+  const planetCount = planetInfo.data.count;
+  const paths = [...Array(planetCount).keys()].map((planetId) => {
     return {
       params: { id: String(planetId + 1) },
     };
@@ -47,9 +49,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const planetInfo = await planetsApi
-    .get(`/planets/${params.id}`)
-    .then((response) => response.data);
+  const planetResponse = await planetsApi.get(`/planets/${params.id}`);
+  const planetInfo = planetResponse.data;
   return {
     props: { planetInfo },
   };
